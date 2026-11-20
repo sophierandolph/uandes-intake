@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>UANDES + Rice: Before You Arrive</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="hatch"></div>
+<header class="top">
+  <img src="assets/logos/lilie-logo-black.png" alt="Lilie, Rice University">
+  <span class="step-count"></span>
+</header>
+<div class="progress" aria-hidden="true"><div></div></div>
+<main></main>
+<footer class="foot">UANDES + Rice | March 13-21, 2027</footer>
+
+<script>
+window.SURVEY = {
+  part: 1,
+  // Paste the Apps Script web app URL here after deploying (see README). Empty = preview mode.
+  endpoint: '',
+  // YouTube embed URL for the hello video, e.g. https://www.youtube-nocookie.com/embed/VIDEO_ID . Empty = no video.
+  videoUrl: '',
+  welcome: {
+    kicker: 'Part 1 of 2',
+    title: 'Before you arrive',
+    lede: 'A few quick questions so we can plan your week in Houston. Part 1 takes about 4 minutes, and Part 2 about 7.',
+    facts: [
+      'Only questions marked * are required.',
+      'Your answers go to Sophie and Hesam at Rice and to the UANDES staff traveling with you.'
+    ]
+  },
+  questions: [
+    { id: 'full_name', type: 'text', required: true, title: 'First and last name', autocomplete: 'name' },
+    { id: 'call_me', type: 'text', title: 'What should we call you, and how do you say it?', placeholder: 'Example: Cami (KAH-mee)' },
+    { id: 'whatsapp', type: 'tel', required: true, greet: true, title: 'WhatsApp number', placeholder: '+56 9 ...', autocomplete: 'tel' },
+    { id: 'linkedin', type: 'url', title: 'If you have a LinkedIn profile, share the link', placeholder: 'linkedin.com/in/...' },
+    { id: 'phone_us', type: 'single', title: 'Will your phone work in the US without Wi-Fi?', options: ['Yes', 'Wi-Fi only', 'Not sure'] },
+    { id: 'age', type: 'number', title: 'How old will you be on March 13, 2027?' },
+    { id: 'food_needs', type: 'multi', required: true, title: 'Food needs', help: 'Pick all that apply.', options: ['None', 'Vegetarian', 'Vegan', 'No pork', 'Gluten-free', 'Lactose-free'], exclusive: ['None'], other: true },
+    { id: 'snacks', type: 'text', title: 'What are your favorite snacks and drinks?' },
+    { id: 'safety', type: 'long', required: true, title: 'Anything we need to know to keep you safe?', help: 'A serious allergy, an EpiPen, heat, or considerations around long periods of walking or standing. Write "none" if nothing.' },
+    { id: 'photos', type: 'single', title: 'Photos and video of you during the program', options: ['Yes', 'Yes, but not on social media', 'No'] },
+    { id: 'tshirt', type: 'single', grid: true, title: 'T-shirt size', help: 'Bella+Canvas unisex, US sizing. <a href="https://www.bellacanvas.com/fit-size-charts" target="_blank" rel="noopener">See the size chart</a>.', options: ['XS', 'S', 'M', 'L', 'XL', '2XL'] }
+  ],
+  thanks: {
+    title: name => name ? 'Thank you, ' + name + '!' : 'Thank you!',
+    body: "Part 1 is done. Part 2 is the fun one: a few questions so we can get to know you.",
+    next: { href: 'part-2.html', label: 'Keep going: Part 2', note: 'About 7 minutes.' },
+    // The "halfway" GIF between Part 1 and Part 2. Hidden until the file exists.
+    gif: 'assets/gif-part1-halfway.gif',
+    gifAlt: 'Sophie and Hesam cheering in the Lilie space at Rice'
+  }
+};
+</script>
+<script src="app.js"></script>
+</body>
+</html>

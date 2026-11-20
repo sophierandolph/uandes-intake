@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>UANDES + Rice: Get to Know You</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="hatch"></div>
+<header class="top">
+  <img src="assets/logos/lilie-logo-black.png" alt="Lilie, Rice University">
+  <span class="step-count"></span>
+</header>
+<div class="progress" aria-hidden="true"><div></div></div>
+<main></main>
+<footer class="foot">UANDES + Rice | March 13-21, 2027</footer>
+
+<script>
+window.SURVEY = {
+  part: 2,
+  // Same Apps Script URL as Part 1. Rows go to the "Part 2" tab.
+  endpoint: '',
+  videoUrl: '',
+  welcome: {
+    kicker: 'Part 2 of 2',
+    title: 'Get to know you',
+    lede: "These questions help us plan sessions and a few surprises. It takes about 7 minutes.",
+    facts: [
+      'Only questions marked * are required.',
+      'Your answers go to Sophie and Hesam at Rice.'
+    ]
+  },
+  questions: [
+    { id: 'full_name', type: 'text', required: true, skipIfKnown: true, section: 'About you', title: 'First and last name', autocomplete: 'name' },
+    { id: 'program_year', type: 'text', greet: true, greetText: 'Welcome back', title: 'Your program and year', placeholder: 'Example: Nursing, 3rd year' },
+    { id: 'been_to_us', type: 'text', section: 'About you', title: 'Have you been to the US before? If so, where?' },
+    { id: 'why_join', type: 'multi', max: 3, section: 'You and the program', title: 'Why did you join this program?', help: 'Pick up to 3.', options: [
+      "I'm curious about entrepreneurship and want to try it",
+      'I have an idea or project I want to push forward',
+      'I want to see how innovation happens in health care',
+      'I want to see how companies create great service experiences',
+      'I want skills I can use in my career',
+      'I wanted to travel and experience the US',
+      'A professor or someone at UANDES encouraged me'
+    ], other: true },
+    { id: 'exp_entrepreneurship', type: 'scale', section: 'You and the program', title: 'My experience in entrepreneurship', ends: ['0 = none', '10 = expert'] },
+    { id: 'ability_identify', type: 'scale', section: 'You and the program', title: 'My ability to identify opportunities that could be new ideas worth building', ends: ['0 = none', '10 = expert'] },
+    { id: 'ability_field', type: 'scale', section: 'You and the program', title: "My ability to collect data out in the field to understand if there's an opportunity to pursue", ends: ['0 = none', '10 = expert'] },
+    { id: 'prior_experience', type: 'long', section: 'You and the program', title: "Tell us a bit about any experience with innovation, entrepreneurship or projects you've built.", help: 'None is fine.' },
+    { id: 'problem', type: 'long', section: 'You and the program', title: "What's a problem you've seen in a service or health care experience that frustrates you?" },
+    { id: 'hype_song', type: 'text', section: 'Your trip', title: "What's your hype song?", placeholder: 'Song and artist' },
+    { id: 'texas_food', type: 'multi', section: 'Your trip', title: 'What American or Texas food do you want to try first?', help: 'Pick all that apply.', options: ['BBQ', 'Tex-Mex', 'Kolaches', 'Donuts', 'Burgers', "Buc-ee's anything"], other: true },
+    { id: 'recharge', type: 'long', section: 'Your trip', title: 'After a long day away from home, what helps you recharge and feel like yourself?' },
+    { id: 'top3', type: 'long', section: 'Your trip', title: 'Top 3 things you want to see or do in Houston or the US', help: "If you don't know yet, that's okay!" },
+    { id: 'questions_else', type: 'long', section: 'Your trip', title: 'Any questions for us, or anything else we should know to make this a great week for you?' }
+  ],
+  thanks: {
+    title: name => name ? 'See you soon, ' + name + '!' : 'See you soon!',
+    body: "That's everything. We can't wait to meet you in Houston.",
+    // The closing GIF. Hidden until the file exists.
+    gif: 'assets/gif-part2-wave.gif',
+    gifAlt: 'Sophie and Hesam waving hello from the Lilie space at Rice'
+  }
+};
+</script>
+<script src="app.js"></script>
+</body>
+</html>
