@@ -26,6 +26,7 @@
   // Questions marked skipIfKnown are hidden when we already have the answer (e.g. the name from Part 1).
   const qs = S.questions.filter(q => !(q.skipIfKnown && answers[q.id]));
   let i = -1; // -1 = welcome, qs.length = submit/thanks
+  if (S.skipWelcomeFrom && new URLSearchParams(location.search).get('from') === S.skipWelcomeFrom) i = 0;
 
   const el = (tag, attrs = {}, ...kids) => {
     const n = document.createElement(tag);
@@ -48,10 +49,13 @@
     return el('div', { class: 'kicker' }, el('span', { class: 'sq', style: 'background:' + SQ[colorIdx % SQ.length] }), text);
   }
 
+  // Numbering runs across both parts so the halfway screen doesn't feel like the end.
+  const offset = S.offset || 0;
+  const total = offset + qs.length + (S.followingCount || 0);
   function setProgress() {
-    const pct = i < 0 ? 0 : Math.min(100, Math.round((i / qs.length) * 100));
-    bar.style.width = pct + '%';
-    count.textContent = i >= 0 && i < qs.length ? (i + 1) + ' / ' + qs.length : '';
+    const done = i < 0 ? offset : offset + Math.min(i, qs.length);
+    bar.style.width = Math.round((done / total) * 100) + '%';
+    count.textContent = i >= 0 && i < qs.length ? (offset + i + 1) + ' / ' + total : '';
   }
 
   function render() {
@@ -78,7 +82,7 @@
     const title = typeof q.title === 'function' ? q.title({ name: firstName() }) : q.title;
     // Keep hyphenated words (Wi-Fi, T-shirt) on one line in big headings.
     const titleText = title.replace(/(\w)-(\w)/g, '$1\u2060-\u2060$2');
-    const pre = q.greet && firstName() ? kicker((q.greetText || 'Nice to meet you') + ', ' + firstName() + '!', i) : kicker(q.section || S.welcome.kicker, i);
+    const pre = q.greet && firstName() ? kicker((q.greetText || 'Nice to meet you') + ', ' + firstName() + '!', i) : kicker(q.section || S.section || S.welcome.kicker, i);
     const h = el('h2', { id: 'q-title' }, titleText, q.required ? el('span', { class: 'req', 'aria-hidden': 'true' }, '\u00a0*') : null);
     const kids = [pre, h];
     if (q.help) kids.push(el('p', { class: 'help', html: q.help }));
@@ -88,13 +92,13 @@
 
     const back = el('button', { class: 'ghost', type: 'button' }, 'Back');
     back.onclick = () => { input.commit(); i -= 1; render(); };
-    const next = el('button', { class: 'primary', type: 'button' }, isLast ? 'Send' : (q.required || input.hasValue() ? 'Next' : 'Skip'));
-    // Single-tap answers move on by themselves, except on the last question (Send stays a deliberate tap).
-    input.autoNext = isLast ? null : () => setTimeout(() => next.click(), 250);
+    const next = el('button', { class: 'primary', type: 'button' }, isLast ? (S.lastButton || 'Send') : (q.required || input.hasValue() ? 'Next' : 'Skip'));
+    // No auto-advance: people tap Next out of habit, so jumping ahead made them skip the next question.
+    input.autoNext = null;
     input.onChange = () => { if (!isLast) next.textContent = q.required || input.hasValue() ? 'Next' : 'Skip'; err.textContent = ''; };
     next.onclick = () => {
       input.commit();
-      if (q.required && !input.hasValue()) { err.textContent = 'This one is required.'; return; }
+      if (q.required && !input.hasValue()) { err.textContent = 'This question is required.'; return; }
       if (isLast) return submit(next, err);
       i += 1; render();
     };
@@ -198,13 +202,14 @@
       try { localStorage.removeItem(DRAFT_KEY); if (answers.full_name) localStorage.setItem('uandes-intake-name', answers.full_name); } catch (e) {}
       i = qs.length; render();
     } catch (e) {
-      btn.disabled = false; btn.textContent = 'Send';
-      err.textContent = "That didn't send. Check your connection and tap Send again. Your answers are still here.";
+      btn.disabled = false; btn.textContent = S.lastButton || 'Send';
+      err.textContent = "That didn't go through. Check your Wi-Fi or data and tap the button again. Your answers are still here.";
     }
   }
 
   function renderThanks() {
-    bar.style.width = '100%';
+    bar.style.width = S.followingCount ? Math.round(((offset + qs.length) / total) * 100) + '%' : '100%';
+    count.textContent = '';
     const t = S.thanks;
     const sq = el('div', { class: 'squares' }, SQ.slice(0, 4).map(c => el('span', { style: 'background:' + c })));
     const media = t.gif ? el('img', { class: 'thanks-gif', src: t.gif, alt: t.gifAlt || '' }) : null;
@@ -215,7 +220,7 @@
       main.append(el('nav', { class: 'actions' }, go));
       if (t.next.note) main.append(el('p', { class: 'help', style: 'margin-top:10px;text-align:center' }, t.next.note));
     }
-    confetti();
+    if (!t.next) confetti();
   }
 
   // A one-time shower of Lilie squares. Skipped for people who turn off motion.

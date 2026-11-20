@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>UANDES + Rice: Get to Know You</title>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
 <div class="hatch"></div>
@@ -20,21 +20,23 @@
 <script>
 window.SURVEY = {
   part: 2,
+  offset: 11,            // continues the count from Part 1
+  skipWelcomeFrom: '1',  // coming from Part 1's Next button: go straight to the questions
   // Same Apps Script URL as Part 1. Rows go to the "Part 2" tab.
   endpoint: '',
   videoUrl: '',
   welcome: {
-    kicker: 'Part 2 of 2',
+    kicker: 'Get to know you',
     title: 'Get to know you',
-    lede: "These questions help us plan sessions and a few surprises. It takes about 7 minutes.",
+    lede: "Your answers to these questions will help us plan sessions and outings. It takes about 7 minutes.",
     facts: [
       'Only questions marked * are required.',
-      'Your answers go to Sophie and Hesam at Rice.'
+      'Your answers go to Sophie and Hesam at Rice and to the UANDES staff traveling with you.'
     ]
   },
   questions: [
-    { id: 'full_name', type: 'text', required: true, skipIfKnown: true, section: 'About you', title: 'First and last name', autocomplete: 'name' },
-    { id: 'program_year', type: 'text', greet: true, greetText: 'Welcome back', title: 'Your program and year', placeholder: 'Example: Nursing, 3rd year' },
+    { id: 'full_name', type: 'text', required: true, skipIfKnown: true, section: 'About you', title: "What's your first and last name?", autocomplete: 'name' },
+    { id: 'program_year', type: 'text', section: 'About you', title: 'What are you studying, and what year are you in?', placeholder: 'Example: Nursing, 3rd year' },
     { id: 'been_to_us', type: 'text', section: 'About you', title: 'Have you been to the US before? If so, where?' },
     { id: 'why_join', type: 'multi', max: 3, section: 'You and the program', title: 'Why did you join this program?', help: 'Pick up to 3.', options: [
       "I'm curious about entrepreneurship and want to try it",
@@ -65,6 +67,6 @@ window.SURVEY = {
   }
 };
 </script>
-<script src="app.js"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>
