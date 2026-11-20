@@ -39,7 +39,7 @@ window.SURVEY = {
     { id: 'whatsapp', type: 'tel', required: true, greet: true, title: 'WhatsApp number', placeholder: '+56 9 ...', autocomplete: 'tel' },
     { id: 'linkedin', type: 'url', title: 'If you have a LinkedIn profile, share the link', placeholder: 'linkedin.com/in/...' },
     { id: 'phone_us', type: 'single', title: 'Will your phone work in the US without Wi-Fi?', options: ['Yes', 'Wi-Fi only', 'Not sure'] },
-    { id: 'age', type: 'number', title: 'How old will you be on March 13, 2027?' },
+    { id: 'age', type: 'number', required: true, title: 'How old will you be on March 13, 2027?' },
     { id: 'food_needs', type: 'multi', required: true, title: 'Food needs', help: 'Pick all that apply.', options: ['None', 'Vegetarian', 'Vegan', 'No pork', 'Gluten-free', 'Lactose-free'], exclusive: ['None'], other: true },
     { id: 'snacks', type: 'text', title: 'What are your favorite snacks and drinks?' },
     { id: 'safety', type: 'long', required: true, title: 'Anything we need to know to keep you safe?', help: 'A serious allergy, an EpiPen, heat, or considerations around long periods of walking or standing. Write "none" if nothing.' },

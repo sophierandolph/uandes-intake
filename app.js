@@ -13,7 +13,6 @@
   try { answers = JSON.parse(localStorage.getItem(DRAFT_KEY) || '{}'); } catch (e) { answers = {}; }
   try {
     if (!answers.full_name && localStorage.getItem('uandes-intake-name')) answers.full_name = localStorage.getItem('uandes-intake-name');
-    if (!answers.call_me && localStorage.getItem('uandes-intake-callme')) answers.call_me = localStorage.getItem('uandes-intake-callme');
   } catch (e) {}
   const save = () => { try { localStorage.setItem(DRAFT_KEY, JSON.stringify(answers)); } catch (e) {} };
 
@@ -38,8 +37,9 @@
   };
 
   function firstName() {
-    const call = (answers.call_me || '').trim();
-    const raw = call || (answers.full_name || '').trim();
+    // Greet by the first word of their full name. "What should we call you" often holds a
+    // pronunciation (e.g. "SO-fee"), so it isn't safe to echo back.
+    const raw = (answers.full_name || '').trim();
     const w = raw.split(/[\s(,]+/)[0];
     return w ? w.charAt(0).toUpperCase() + w.slice(1) : '';
   }
@@ -195,7 +195,7 @@
       } else {
         console.log('[preview] would send:', row);
       }
-      try { localStorage.removeItem(DRAFT_KEY); if (answers.full_name) localStorage.setItem('uandes-intake-name', answers.full_name); if (answers.call_me) localStorage.setItem('uandes-intake-callme', answers.call_me); } catch (e) {}
+      try { localStorage.removeItem(DRAFT_KEY); if (answers.full_name) localStorage.setItem('uandes-intake-name', answers.full_name); } catch (e) {}
       i = qs.length; render();
     } catch (e) {
       btn.disabled = false; btn.textContent = 'Send';
