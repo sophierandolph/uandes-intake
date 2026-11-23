@@ -38,10 +38,14 @@
   };
 
   function firstName() {
-    // Greet by the first word of their full name. "What should we call you" often holds a
-    // pronunciation (e.g. "SO-fee"), so it isn't safe to echo back.
-    const raw = (answers.full_name || '').trim();
-    const w = raw.split(/[\s(,]+/)[0];
+    // Prefer "What should we call you" (Part 1's call_me, or the copy saved for Part 2).
+    // Take the part before any "(" "," or " - ", since people add a pronunciation.
+    // If what's left looks like a pronunciation itself ("SO-fee"), fall back to the full name.
+    let call = answers.call_me || '';
+    try { if (!call) call = localStorage.getItem('uandes-intake-call') || ''; } catch (e) {}
+    let w = call.trim().split(/\s*[(,]|\s+-\s+|\s*\//)[0].trim().split(/\s+/)[0] || '';
+    if (/-/.test(w) && /[A-Z]{2}/.test(w)) w = '';
+    if (!w) w = (answers.full_name || '').trim().split(/[\s(,]+/)[0];
     return w ? w.charAt(0).toUpperCase() + w.slice(1) : '';
   }
 
@@ -146,6 +150,7 @@
     let picked = new Set([].concat(answers[q.id] || []).filter(v => q.options.includes(v) || v === 'Other'));
     let otherText = answers[q.id + '_other'] || '';
     const wrap = el('div', { class: 'choices' + (q.grid ? ' grid' : ''), role: multi ? 'group' : 'radiogroup', 'aria-labelledby': 'q-title' });
+    const maxNote = multi && q.max ? el('div', { class: 'hint', 'aria-live': 'polite' }) : null;
     const otherBox = q.other ? el('input', { type: 'text', class: 'other-input', placeholder: 'Tell us more', 'aria-label': 'Other, please describe' }) : null;
     if (otherBox) { otherBox.value = otherText; otherBox.addEventListener('input', () => { otherText = otherBox.value; api.onChange(); }); }
     const opts = q.other ? q.options.concat('Other') : q.options;
@@ -158,8 +163,8 @@
         else if (inp.checked) {
           if (q.exclusive && q.exclusive.includes(opt)) picked = new Set([opt]);
           else { q.exclusive && q.exclusive.forEach(x => picked.delete(x)); picked.add(opt); }
-          if (q.max && picked.size > q.max) { picked.delete(opt); }
-        } else picked.delete(opt);
+          if (q.max && picked.size > q.max) { picked.delete(opt); if (maxNote) { maxNote.textContent = 'You can pick up to ' + q.max + '.'; } }
+        } else { picked.delete(opt); if (maxNote) maxNote.textContent = ''; }
         sync(); api.onChange();
         if (!multi && opt !== 'Other' && api.autoNext) api.autoNext();
       });
@@ -171,6 +176,7 @@
     }
     wrap.append(...labels);
     if (otherBox) wrap.append(otherBox);
+    if (maxNote) wrap.append(maxNote);
     sync();
     api.node = wrap;
     api.commit = () => {
@@ -208,7 +214,7 @@
       } else {
         console.log('[preview] would send:', row);
       }
-      try { localStorage.removeItem(DRAFT_KEY); if (answers.full_name) localStorage.setItem('uandes-intake-name', answers.full_name); } catch (e) {}
+      try { localStorage.removeItem(DRAFT_KEY); if (answers.full_name) localStorage.setItem('uandes-intake-name', answers.full_name); if (answers.call_me) localStorage.setItem('uandes-intake-call', answers.call_me); } catch (e) {}
       i = qs.length; render();
     } catch (e) {
       btn.disabled = false; btn.textContent = S.lastButton || 'Send';

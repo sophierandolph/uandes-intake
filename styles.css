@@ -61,6 +61,7 @@ input:focus, textarea:focus { outline: none; border-color: var(--navy); }
 .choice.on { border-color: var(--navy); background: var(--soft); }
 .choice.on .box { background: var(--navy); }
 .choice.on .box::after { content: ""; width: 8px; height: 8px; background: var(--white); }
+.choices[role="radiogroup"] .box, .choices[role="radiogroup"] .choice.on .box::after { border-radius: 50%; }
 .choice:focus-within { outline: 3px solid var(--cyan); outline-offset: 1px; }
 .choices.grid { display: grid; grid-template-columns: repeat(3, 1fr); }
 .choices.grid .choice { justify-content: center; }
