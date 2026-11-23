@@ -45,7 +45,7 @@ window.SURVEY = {
     { id: 'age', type: 'number', required: true, title: 'How old will you be on March 13, 2027?' },
     { id: 'food_needs', type: 'multi', required: true, title: 'Do you have any dietary considerations?', help: 'Pick all that apply.', options: ['None', 'Vegetarian', 'Vegan', 'No pork', 'Gluten-free', 'Lactose-free'], exclusive: ['None'], other: true },
     { id: 'snacks', type: 'text', title: 'What are your favorite snacks and drinks?' },
-    { id: 'safety', type: 'long', required: true, title: 'Anything we need to know to keep you safe?', help: 'A serious allergy, an EpiPen, heat, or considerations around long periods of walking or standing. Write "none" if nothing.' },
+    { id: 'safety', type: 'long', required: true, title: 'Any health needs we should plan around?', help: 'A serious allergy, an EpiPen, heat, or considerations around long periods of walking or standing. Write "none" if nothing.' },
     { id: 'photos', type: 'single', title: 'Is it OK if we take photos and video of you during the program?', options: ['Yes', 'Yes, but not on social media', 'No'] },
     { id: 'tshirt', type: 'single', grid: true, title: "What's your T-shirt size?", help: 'Bella+Canvas unisex, US sizing. <a href="https://www.bellacanvas.com/fit-size-charts" target="_blank" rel="noopener">See the size chart</a>.', options: ['XS', 'S', 'M', 'L', 'XL', '2XL'] }
   ],
@@ -55,7 +55,7 @@ window.SURVEY = {
     next: { href: 'part-2.html?from=1', label: 'Next' },
     // The "halfway" GIF between Part 1 and Part 2. Hidden until the file exists.
     gif: 'assets/gif-part1-halfway.gif',
-    gifAlt: 'Sophie and Hesam cheering in the Lilie space at Rice'
+    gifAlt: ''
   }
 };
 </script>
