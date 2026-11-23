@@ -75,6 +75,11 @@
     const w = S.welcome;
     const kids = [kicker(w.kicker, 0), el('h1', {}, w.title), el('p', { class: 'lede' }, w.lede)];
     if (S.videoUrl) kids.push(el('div', { class: 'video' }, el('iframe', { src: S.videoUrl, title: 'Hello from Sophie and Hesam', allow: 'encrypted-media; picture-in-picture', allowfullscreen: '' })));
+    if (w.gif) {
+      const g = el('img', { class: 'thanks-gif', src: w.gif, alt: w.gifAlt || '' });
+      g.onerror = () => g.remove();
+      kids.push(g);
+    }
     kids.push(el('ul', { class: 'facts' }, w.facts.map(f => el('li', {}, f))));
     const start = el('button', { class: 'primary', type: 'button' }, Object.keys(answers).length ? 'Continue' : "Let's go");
     start.onclick = () => { i = 0; render(); };
