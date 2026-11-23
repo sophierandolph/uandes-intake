@@ -185,7 +185,16 @@
 
   async function submit(btn, err) {
     btn.disabled = true; btn.textContent = 'Sending...';
-    const row = { part: S.part, submitted_at: new Date().toISOString() };
+    // One row per student: Part 1 makes a random ID, Part 2 sends the same ID so the
+    // Sheet fills in the rest of that row. Kept in this browser only.
+    let rid = '';
+    try { rid = localStorage.getItem('uandes-intake-id') || ''; } catch (e) {}
+    if (!rid) {
+      rid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+      try { localStorage.setItem('uandes-intake-id', rid); } catch (e) {}
+    }
+    const row = { response_id: rid };
+    row['part' + S.part + '_submitted_at'] = new Date().toISOString();
     S.questions.filter(q => !qs.includes(q)).forEach(q => { row[q.id] = answers[q.id] || ''; }); // carried over, still sent for matching
     qs.forEach(q => {
       const v = answers[q.id];
