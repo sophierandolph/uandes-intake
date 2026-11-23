@@ -234,7 +234,8 @@
     const sq = el('div', { class: 'squares' }, SQ.slice(0, 4).map(c => el('span', { style: 'background:' + c })));
     const media = t.gif ? el('img', { class: 'thanks-gif', src: t.gif, alt: t.gifAlt || '' }) : null;
     if (media) media.onerror = () => media.remove(); // file not added yet: show nothing
-    main.append(el('div', { class: 'screen' }, sq, el('h1', {}, typeof t.title === 'function' ? t.title(firstName()) : t.title), media, el('p', { class: 'lede' }, t.body)));
+    const card = t.colorCard ? el('div', { class: 'color-card', role: 'img', 'aria-label': t.colorCard }, el('span', {}, t.colorCard)) : null;
+    main.append(el('div', { class: 'screen' }, sq, el('h1', {}, typeof t.title === 'function' ? t.title(firstName()) : t.title), media, card, el('p', { class: 'lede' }, t.body)));
     if (t.next) {
       const go = el('a', { class: 'button primary', href: t.next.href }, t.next.label);
       main.append(el('nav', { class: 'actions' }, go));

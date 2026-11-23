@@ -101,3 +101,17 @@ h2 { text-transform: none; font-size: clamp(23px, 6vw, 34px); line-height: 1.12;
 .countdown-num { display: block; font-size: 56px; line-height: 1; font-weight: 700; color: var(--navy); }
 .countdown-label { display: block; margin-top: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
 .confetti-again { margin: 0 auto; }
+
+/* Final screen: a square that cycles through the Lilie palette, like a GIF */
+.color-card { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; border: 2px solid var(--navy); background: var(--navy); color: var(--white); animation: lilie-cycle 4.2s steps(1, end) infinite; }
+.color-card span { font-family: var(--display); font-weight: 900; font-size: clamp(48px, 16vw, 96px); line-height: .95; text-transform: uppercase; }
+@keyframes lilie-cycle {
+  0%      { background: var(--navy);     color: var(--white); }
+  14.28%  { background: var(--cyan);     color: var(--navy); }
+  28.57%  { background: var(--green);    color: var(--white); }
+  42.85%  { background: var(--yellow);   color: var(--navy); }
+  57.14%  { background: var(--orange);   color: var(--white); }
+  71.42%  { background: var(--red);      color: var(--white); }
+  85.71%  { background: var(--mid-blue); color: var(--white); }
+}
+@media (prefers-reduced-motion: reduce) { .color-card { animation: none; } }
