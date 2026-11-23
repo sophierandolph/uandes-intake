@@ -76,7 +76,7 @@
     const kids = [kicker(w.kicker, 0), el('h1', {}, w.title), el('p', { class: 'lede' }, w.lede)];
     if (S.videoUrl) kids.push(el('div', { class: 'video' }, el('iframe', { src: S.videoUrl, title: 'Hello from Sophie and Hesam', allow: 'encrypted-media; picture-in-picture', allowfullscreen: '' })));
     if (w.gif) {
-      const g = el('img', { class: 'thanks-gif', src: w.gif, alt: w.gifAlt || '' });
+      const g = el('img', { class: 'thanks-gif welcome-gif', src: w.gif, alt: w.gifAlt || '' });
       g.onerror = () => g.remove();
       kids.push(g);
     }
