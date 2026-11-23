@@ -235,7 +235,17 @@
       main.append(el('nav', { class: 'actions' }, go));
       if (t.next.note) main.append(el('p', { class: 'help', style: 'margin-top:10px;text-align:center' }, t.next.note));
     }
-    if (!t.next) confetti();
+    if (t.countdown) {
+      const days = Math.ceil((new Date(t.countdown + 'T00:00:00') - new Date()) / 86400000);
+      if (days > 0) main.append(el('div', { class: 'countdown' }, el('span', { class: 'countdown-num' }, String(days)), el('span', { class: 'countdown-label' }, days === 1 ? 'day until Houston' : 'days until Houston')));
+    }
+    if (!t.next) {
+      confetti();
+      setTimeout(confetti, 1200);
+      const again = el('button', { class: 'button confetti-again', type: 'button' }, 'More confetti');
+      again.onclick = confetti;
+      main.append(el('nav', { class: 'actions' }, again));
+    }
   }
 
   // A one-time shower of Lilie squares. Skipped for people who turn off motion.
@@ -243,9 +253,10 @@
     if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const box = el('div', { class: 'confetti', 'aria-hidden': 'true' });
     const colors = ['#0037A6', '#17B9E2', '#39B54A', '#F15A29', '#EE243E', '#FFF200', '#0E6BA5'];
-    for (let n = 0; n < 70; n++) {
-      const size = 6 + Math.round(Math.random() * 8);
+    for (let n = 0; n < 110; n++) {
+      const size = 6 + Math.round(Math.random() * 10);
       box.append(el('span', { style: [
+        n % 3 === 0 ? 'border-radius:50%' : 'border-radius:0',
         'left:' + (Math.random() * 100) + '%',
         'width:' + size + 'px', 'height:' + size + 'px',
         'background:' + colors[n % colors.length],

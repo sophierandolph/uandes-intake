@@ -96,3 +96,8 @@ footer.foot { text-align: center; font-size: 11px; letter-spacing: 0.12em; text-
 /* Questions read in sentence case: long questions in all caps were hard to read.
    Big screen titles (welcome, halfway, thank you) stay in caps. */
 h2 { text-transform: none; font-size: clamp(23px, 6vw, 34px); line-height: 1.12; letter-spacing: 0; }
+
+.countdown { margin: 22px 0 4px; text-align: center; border: 2px solid var(--navy); padding: 14px 12px; }
+.countdown-num { display: block; font-size: 56px; line-height: 1; font-weight: 700; color: var(--navy); }
+.countdown-label { display: block; margin-top: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+.confetti-again { margin: 0 auto; }
